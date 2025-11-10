@@ -13,6 +13,7 @@
 - Git installed
 - GitHub account
 - Basic familiarity with React and command line
+- (Optional) GitHub CLI (`gh`) for faster repository setup
 
 ## 📦 Application Location
 
@@ -23,18 +24,45 @@ The starter application is provided in the `react-cicd-demo/` directory. Copy th
 **This is a team exercise. One team member should:**
 
 1. Create a new repository on GitHub named `react-cicd-demo`
+   
+   **Option A: Using GitHub Web Interface**
+   - Go to github.com and click the **"+"** in the top-right → **"New repository"**
+   - Repository name: `react-cicd-demo`
    - Make it **public** (required for GitHub Pages)
    - Do NOT initialize with README, .gitignore, or license
+   - Click **"Create repository"**
+   
+   **Option B: Using GitHub CLI** (if you have `gh` installed)
+   ```bash
+   gh repo create react-cicd-demo --public --description "React CI/CD Demo"
+   ```
+   This creates the repository without cloning it yet.
+   
+   **Option C: Skip this step** if you plan to use Workflow A in Part 2 (local-first with `gh` CLI) - it will create the repo automatically.
 
 2. Invite team members as collaborators:
+   
+   **Note:** If using Workflow A (local-first), do this AFTER pushing your code in Part 2.
+   
+   **Option A: Using GitHub Web Interface**
    - Go to repository **Settings** → **Collaborators**
    - Click **Add people**
    - Add each team member's GitHub username
+   - Add the professor: **sillyfunnypedro**
+   
+   **Option B: Using GitHub CLI**
+   ```bash
+   # Invite team members (replace with actual usernames)
+   gh repo set-access react-cicd-demo --user teammate1 --permission push
+   gh repo set-access react-cicd-demo --user teammate2 --permission push
+   
+   # Invite the professor
+   gh repo set-access react-cicd-demo --user sillyfunnypedro --permission push
+   ```
 
-3. Invite the professor:
-   - Add GitHub user: **sillyfunnypedro**
+3. **Important:** Make sure the professor **sillyfunnypedro** is invited!
 
-4. Keep the repository page open - you'll clone it in Part 2
+4. If using Workflow B, keep the repository page open - you'll clone it in Part 2
 
 **All other team members should:**
 - Accept the collaboration invitation (check email or GitHub notifications)
@@ -51,6 +79,7 @@ react-cicd-demo/
 │   ├── App.tsx          # Main component with counter logic (TypeScript)
 │   ├── App.test.tsx     # Test suite for App component (TypeScript)
 │   ├── main.tsx         # React entry point (TypeScript)
+│   ├── setupTests.ts    # Jest setup with jest-dom matchers
 │   └── App.css          # Styling
 ├── index.html           # HTML template
 ├── package.json         # Dependencies and scripts
@@ -58,7 +87,6 @@ react-cicd-demo/
 ├── tsconfig.node.json   # TypeScript config for Node
 ├── vite.config.ts       # Vite bundler configuration (TypeScript)
 ├── jest.config.js       # Jest test configuration
-├── jest.setup.js        # Jest test setup
 ├── .babelrc            # Babel transpiler configuration
 └── .gitignore          # Git ignore rules
 ```
@@ -91,11 +119,42 @@ If you run the dev server, visit `http://localhost:5173` to see your app running
 
 **Note:** Don't worry about git yet - you'll set that up in Part 2 after cloning your team's repository.
 
-## Part 2: Clone Empty Repo and Add Application Files (5 minutes)
+## Part 2: Push Application to GitHub (5 minutes)
 
-**The designated team member who created the GitHub repo should:**
+**The designated team member who created the GitHub repo should choose ONE of these workflows:**
 
-### Step 1: Clone the Empty Repository
+---
+
+### Workflow A: Local-First with GitHub CLI (Fastest!)
+
+**If you have `gh` CLI installed and already have the application files:**
+
+```bash
+# Navigate to the provided application directory
+cd react-cicd-demo
+
+# Initialize git repository
+git init
+
+# Add all files
+git add -A
+
+# Create initial commit
+git commit -m "Initial commit: React TypeScript app with tests"
+
+# Create GitHub repo and push in one command
+gh repo create react-cicd-demo --public --source=. --remote=origin --push
+```
+
+That's it! Your code is now on GitHub. Skip to Part 3.
+
+---
+
+### Workflow B: Clone Empty Repository First
+
+**If you prefer the traditional workflow or don't have `gh` CLI:**
+
+#### Step 1: Clone the Empty Repository
 ```bash
 # Replace YOUR-USERNAME with your actual GitHub username
 git clone https://github.com/YOUR-USERNAME/react-cicd-demo.git
@@ -104,11 +163,11 @@ git clone https://github.com/YOUR-USERNAME/react-cicd-demo.git
 cd react-cicd-demo
 ```
 
-### Step 2: Copy the Application Files
+#### Step 2: Copy the Application Files
 
 **Important:** You need to copy ALL files including hidden files (`.gitignore`, `.babelrc`, etc.)
 
-**Option A: Using Command Line (Mac/Linux)**
+**Option 1: Using Command Line (Mac/Linux)**
 ```bash
 # Navigate to where your empty repo is
 cd react-cicd-demo
@@ -121,27 +180,27 @@ cp -r /path/to/provided/react-cicd-demo/. .
 ls -la
 ```
 
-**Option B: Using Finder (Mac) or File Explorer (Windows)**
+**Option 2: Using Finder (Mac) or File Explorer (Windows)**
 1. Open the provided `react-cicd-demo` folder in Finder/File Explorer
 2. Press `Cmd+Shift+.` (Mac) or enable "Show hidden files" (Windows)
 3. Select ALL files and folders (including hidden files starting with `.`)
 4. Copy them to your cloned `react-cicd-demo` directory
 5. Verify `.gitignore` and `.babelrc` are present
 
-### Step 3: Verify Files Before Committing
+#### Step 3: Verify Files Before Committing
 ```bash
 # Check what files were copied (should see hidden files too)
 ls -la
 
 # You should see at least these files:
-# .babelrc, .gitignore, index.html, jest.config.js, jest.setup.js,
+# .babelrc, .gitignore, index.html, jest.config.js,
 # package.json, tsconfig.json, tsconfig.node.json, vite.config.ts,
-# and the src/ directory
+# and the src/ directory (which includes setupTests.ts)
 
 # If any are missing, go back to Step 2 and copy them
 ```
 
-### Step 4: Add, Commit, and Push
+#### Step 4: Add, Commit, and Push
 ```bash
 # Add all files to git
 git add .
@@ -156,15 +215,22 @@ git commit -m "Initial commit: React TypeScript app with tests"
 git push origin main
 ```
 
-### Step 5: Verify on GitHub
+---
+
+### Verify on GitHub (Both Workflows)
+
+Regardless of which workflow you used:
+
 - Visit your repository on GitHub
-- Confirm all files are present
-- Teammates can now clone the repository with:
-  ```bash
-  git clone https://github.com/YOUR-USERNAME/react-cicd-demo.git
-  cd react-cicd-demo
-  npm install
-  ```
+- Confirm all files are present (especially `.gitignore` and `.babelrc`)
+- Check that the commit history shows your initial commit
+
+**Teammates can now clone and set up:**
+```bash
+git clone https://github.com/YOUR-USERNAME/react-cicd-demo.git
+cd react-cicd-demo
+npm install
+```
 
 ## Part 3: Configure GitHub Actions for CI/CD (15 minutes)
 
