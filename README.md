@@ -1,6 +1,6 @@
 # React CI/CD Exercise with GitHub Actions
 
-**Time Required:** ~45 minutes  _
+**Time Required:** ~45 minutes  
 **Learning Objectives:**
 - Understand a React TypeScript application with automated testing
 - Implement continuous integration (CI) with GitHub Actions
