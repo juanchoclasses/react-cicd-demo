@@ -2,6 +2,20 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import App from './App'
 
 describe('App Component', () => {
+  // test for exercise 1
+  test('decrement button decreases count', () => {
+     render(<App />)
+     const incrementButton = screen.getByText(/Increment/i)
+     const decrementButton = screen.getByText(/Decrement/i)
+     
+     fireEvent.click(incrementButton)
+     fireEvent.click(incrementButton)
+     fireEvent.click(decrementButton)
+     
+     const count = screen.getByText(/Click count: 1/i)
+     expect(count).toBeInTheDocument()
+   })
+   // test for exercise 1 ends 
   test('renders heading', () => {
     render(<App />)
     const heading = screen.getByText(/React CI\/CD Demo/i)
