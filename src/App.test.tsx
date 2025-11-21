@@ -34,5 +34,6 @@ describe('App Component', () => {
     const count = screen.getByText(/Click count: 0/i)
     expect(count).toBeInTheDocument()
   })
+
 })
 
