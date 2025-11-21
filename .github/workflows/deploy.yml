@@ -35,10 +35,7 @@ jobs:
         run: npm run build
 
       - name: Add .nojekyll
-        run: touch ./dist/.nojekyll
-
-      - name: Test deploy file creation
-        run: echo "Deploy test $(date)" > ./dist/test-deploy.txt
+        run: touch ./dist/.nojekyllc
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
